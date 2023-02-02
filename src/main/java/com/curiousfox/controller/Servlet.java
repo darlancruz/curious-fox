@@ -50,7 +50,7 @@ public class Servlet extends HttpServlet {
 		req.setAttribute("id", user.getId());
 		req.setAttribute("name", user.getName());
 		req.setAttribute("username", user.getUsername());
-		req.setAttribute("picture", user.getPicture_url());
+		req.setAttribute("picture", user.getPictureUrl());
 		req.setAttribute("bio", user.getBio());
 		
 		RequestDispatcher rd = req.getRequestDispatcher("profile.jsp");
@@ -63,9 +63,9 @@ public class Servlet extends HttpServlet {
 		String text = req.getParameter("text");
 		
 		Comment comment = new Comment();
-		comment.setReceiver_id(receiverId);
+		comment.setReceiverId(receiverId);
 		comment.setText(text);
-		comment.setCreated_at(Instant.now());
+		comment.setCreatedAt(Instant.now());
 		
 		CommentDAO dao = new CommentDAO();
 		dao.addComment(comment);

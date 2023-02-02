@@ -7,7 +7,7 @@ public class User {
 	private String password;
 	private String bio;
 	private String email;
-	private String picture_url;
+	private String pictureUrl;
 	
 	public String getId() {
 		return id;
@@ -57,12 +57,12 @@ public class User {
 		this.email = email;
 	}
 	
-	public String getPicture_url() {
-		return picture_url;
+	public String getPictureUrl() {
+		return pictureUrl;
 	}
 	
-	public void setPicture_url(String picture_url) {
-		this.picture_url = picture_url;
+	public void setPictureUrl(String pictureUrl) {
+		this.pictureUrl = pictureUrl;
 	}
 
 }

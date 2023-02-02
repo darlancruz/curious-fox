@@ -30,7 +30,7 @@ public class UserDAO {
 				user.setPassword(rs.getString("password"));
 				user.setBio(rs.getString("bio"));
 				user.setEmail(rs.getString("email"));
-				user.setPicture_url(rs.getString("picture_url"));	
+				user.setPictureUrl(rs.getString("picture_url"));	
 			}
 			
 			rs.close();

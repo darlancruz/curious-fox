@@ -1,14 +1,13 @@
 package com.curiousfox.model;
 
 import java.time.Instant;
-import java.util.Calendar;
 
 public class Comment {
 	String id;
-	String sender_id;
-	String receiver_id;
+	String senderId;
+	String receiverId;
 	String text;
-	Instant created_at;
+	Instant createdAt;
 	
 	public String getId() {
 		return id;
@@ -18,20 +17,20 @@ public class Comment {
 		this.id = id;
 	}
 	
-	public String getSender_id() {
-		return sender_id;
+	public String getSenderId() {
+		return senderId;
 	}
 	
-	public void setSender_id(String sender_id) {
-		this.sender_id = sender_id;
+	public void setSenderId(String senderId) {
+		this.senderId = senderId;
 	}
 	
-	public String getReceiver_id() {
-		return receiver_id;
+	public String getReceiverId() {
+		return receiverId;
 	}
 	
-	public void setReceiver_id(String receiver_id) {
-		this.receiver_id = receiver_id;
+	public void setReceiverId(String receiverId) {
+		this.receiverId = receiverId;
 	}
 	
 	public String getText() {
@@ -42,12 +41,12 @@ public class Comment {
 		this.text = text;
 	}
 	
-	public Instant getCreated_at() {
-		return created_at;
+	public Instant getCreatedAt() {
+		return createdAt;
 	}
 	
-	public void setCreated_at(Instant created_at) {
-		this.created_at = created_at;
+	public void setCreatedAt(Instant createdAt) {
+		this.createdAt = createdAt;
 	}
 	
 }
