@@ -1,59 +1,121 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-  <!DOCTYPE html>
-  <html lang="en">
+<%@page import="java.util.Map.Entry"%>
+<%@page import="com.curiousfox.model.User"%>
+<%@page import="com.curiousfox.model.Comment"%>
+<%@page import="com.curiousfox.utils.TimeAgo"%>
 
-  <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Curious Fox</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@48,400,0,0" />
-    <style type="text/css">
-      body {
-        font-family: 'Inter', sans-serif;
-      }
-    </style>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<!DOCTYPE html>
+<html lang="en">
 
-  </head>
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Curious Fox</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@48,400,0,0" />
+  <style type="text/css">
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+  </style>
 
-  <body class="bg-slate-800 w-screen flex flex-col gap-4">
-    <header class="flex justify-center items-center bg-slate-700">
-      <div class="flex flex-col items-center gap-1 p-4 max-w-6xl">
-        <img class="w-40 rounded-full" src="<%out.print(request.getAttribute("picture"));%>">
-        <h2 class="text-center text-slate-50 font-bold text-2xl">
-          <%out.print(request.getAttribute("name"));%>
-        </h2>
-        <span
-          class="border border-slate-500 hover:border-slate-300 text-slate-300 hover:text-slate-100 text-sm font-medium rounded-md px-2 py-1 transition duration-50 cursor-pointer">
-          <%out.print(request.getAttribute("username"));%>
-        </span>
-        <p class="max-w-xl text-slate-300 text-medium leading-6 text-center">
-          <%out.print(request.getAttribute("bio"));%>
-        </p>
-      </div>
-    </header>
+</head>
 
-    <main class="w-screen flex flex-col items-center gap-8">
-      <form name="comment" id="comment-area" method="POST" action="send" class="max-w-2xl w-11/12 flex flex-col gap-2">
-        <input type="hidden" name="receiver_id" value="<%out.print(request.getAttribute("id"));%>">
-        <input type="hidden" name="receiver_username" value="<%out.print(request.getAttribute("username"));%>">
-        <textarea name="text" id="comment-box" required maxlength="280"
-          class="focus:ring-2 focus:ring-blue-500 focus:outline-none appearance-none h-32 text-sm leading-6 text-slate-50 bg-slate-900 placeholder-slate-400 rounded-md py-2 px-5 ring-1 ring-slate-500 shadow-sm resize-none"
-          aria-label="Ask a question..." placeholder="Ask a question..."></textarea>
-        <input type="submit" value="Send" onClick="validator();"
-          class="self-end w-full md:w-24 h-10 text-base font-medium rounded-lg bg-sky-500 hover:bg-sky-400 text-white py-2 text-center cursor-pointer highlight-white transition duration-50">
-      </form>
+<body class="bg-slate-800 w-screen flex flex-col gap-4">
+  <header class="flex justify-center items-center bg-slate-700">
+    <div class="flex flex-col items-center gap-1 p-4 max-w-6xl">
+      <img class="w-40 rounded-full" src="<%out.print(request.getAttribute("picture"));%>">
+      <h2 class="text-center text-slate-50 font-bold text-2xl">
+        <%out.print(request.getAttribute("name"));%>
+      </h2>
+      <span
+        class="border border-slate-500 hover:border-slate-300 text-slate-300 hover:text-slate-100 text-sm font-medium rounded-md px-2 py-1 transition duration-50 cursor-pointer">
+        <%out.print(request.getAttribute("username"));%>
+      </span>
+      <p class="max-w-xl text-slate-300 text-medium leading-6 text-center">
+        <%out.print(request.getAttribute("bio"));%>
+      </p>
+    </div>
+  </header>
 
-      <div class="flex flex-col gap-4 w-11/12 items-center">
+  <main class="w-screen flex flex-col items-center gap-8">
+    <form name="comment" id="comment-area" method="POST" action="send" class="max-w-2xl w-11/12 flex flex-col gap-2">
+      <input type="hidden" name="receiver_id" value="<%out.print(request.getAttribute("id"));%>">
+      <input type="hidden" name="receiver_username" value="<%out.print(request.getAttribute("username"));%>">
+      <textarea name="text" id="comment-box" required maxlength="280"
+        class="focus:ring-2 focus:ring-blue-500 focus:outline-none appearance-none h-32 text-sm leading-6 text-slate-50 bg-slate-900 placeholder-slate-400 rounded-md py-2 px-5 ring-1 ring-slate-500 shadow-sm resize-none"
+        aria-label="Ask a question..." placeholder="Ask a question..."></textarea>
+      <input type="submit" value="Send" onClick="validator();"
+        class="self-end w-full md:w-24 h-10 text-base font-medium rounded-lg bg-sky-500 hover:bg-sky-400 text-white py-2 text-center cursor-pointer highlight-white transition duration-50">
+    </form>
 
-      </div>
-    </main>
-    <script src="scripts/Comment.js"></script>
-  </body>
+    <div class="flex flex-col gap-4 w-11/12 items-center">
+      <c:forEach items="${comments}" var="comment">
+        <div class="flex flex-row gap-2 max-w-2xl w-full border-b border-slate-500 pb-2">
+           <c:choose>
+          	<c:when test="${not empty comment.key.id}">
+          	 <a class="w-16 shrink-0 cursor-pointer" href="./profile?username=${comment.key.id}">
+           	 	<img src="https://xsgames.co/randomusers/assets/avatars/female/41.jpg" class="w-full rounded-full">
+         	 </a>
+          	</c:when>
+          	<c:otherwise>
+          		<div class="w-16 shrink-0">
+          				<img src="./img/fox.svg" class="w-full rounded-full">
+          		</div>
+          	</c:otherwise>
+          </c:choose>
+         
+          <div class="flex w-full flex-col">
+          <c:choose>
+          	<c:when test="${not empty comment.key.id}">
+          	    <a class="text-slate-500 cursor-pointer" href="./profile?username=${comment.key.id}">
+	              <span class="text-slate-50 font-medium text-lg">${comment.key.name}</span>
+	              
+	              <span>@${comment.key.username}</span>
+	              <span>·</span>
+	              <span><%
+	              	 Entry<User, Comment> commentMap = (Entry<User, Comment>) pageContext.getAttribute("comment");
+	              	 out.print(TimeAgo.howLongAgo(commentMap.getValue().getCreatedAt()));
+	              %></span>
+           		</a>
+          	</c:when>
+          	<c:otherwise>
+          		 <div class="text-slate-500 select-none">
+	              <span class="text-slate-50 font-medium text-lg">Anonymous</span>
+	              <span>·</span>
+	              <span><%
+	              	 Entry<User, Comment> commentMap = (Entry<User, Comment>)  pageContext.getAttribute("comment");
+	              	 out.print(TimeAgo.howLongAgo(commentMap.getValue().getCreatedAt()));
+	              %></span>
+           		</div>
+          	</c:otherwise>
+          </c:choose>
+        
+            <p class="w-full text-slate-300 md:text-justify pt-2 md:pt-0">
+              ${comment.value.text}
+              </p>
 
-  </html>
+            <a
+              class="self-start md:self-end flex items-center justify-center gap-1 w-11/12 md:w-fit rounded-md text-slate-300 align text-sm bg-slate-700 hover:bg-slate-500 p-2 md:py-1 mt-3 md:mt-0 cursor-pointer transition duration-50">
+              <span class="material-symbols-rounded">
+                comment
+              </span>
+              <span class="font-medium">
+                Reply
+              </span>
+            </a>
+          </div>
+        </div>
+      </c:forEach>
+    </div>
+  </main>
+  <script src="scripts/Comment.js"></script>
+</body>
+
+</html>
