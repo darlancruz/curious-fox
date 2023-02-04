@@ -2,6 +2,9 @@ package com.curiousfox.controller;
 
 import java.io.IOException;
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -44,8 +47,8 @@ public class Servlet extends HttpServlet {
 	
 	protected void getUser(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		String username = req.getParameter("username");
-		UserDAO dao = new UserDAO();
-		User user = dao.getUser(username);
+		UserDAO userDAO = new UserDAO();
+		User user = userDAO.getUser(username);
 		
 		req.setAttribute("id", user.getId());
 		req.setAttribute("name", user.getName());
@@ -53,9 +56,21 @@ public class Servlet extends HttpServlet {
 		req.setAttribute("picture", user.getPictureUrl());
 		req.setAttribute("bio", user.getBio());
 		
+		CommentDAO commentDAO = new CommentDAO();
+		ArrayList<Comment> commentArr = commentDAO.getAllComments(user.getId());
+	
+		ArrayList<Entry<User, Comment>> commentsByUser = new ArrayList<Entry<User, Comment>>();
+		for(Comment comment: commentArr) {
+			User sender = userDAO.getUserById(comment.getSenderId());
+			Entry<User, Comment> entry = Map.entry(sender, comment);
+			commentsByUser.add(entry);
+		}
+		req.setAttribute("comments", commentsByUser);
+		
 		RequestDispatcher rd = req.getRequestDispatcher("profile.jsp");
 		rd.forward(req, res);
 	}
+	
 	
 	protected void sendComment(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		String receiverId = req.getParameter("receiver_id");
