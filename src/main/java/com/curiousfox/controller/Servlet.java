@@ -15,10 +15,12 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.curiousfox.DAO.CommentDAO;
 import com.curiousfox.DAO.UserDAO;
+import com.curiousfox.exception.ValidationException;
 import com.curiousfox.model.Comment;
 import com.curiousfox.model.User;
+import com.curiousfox.utils.Validation;
 
-@WebServlet(urlPatterns = {"/profile", "/send"})
+@WebServlet(urlPatterns = {"/profile", "/send","/sign-up"})
 public class Servlet extends HttpServlet {
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
@@ -29,7 +31,12 @@ public class Servlet extends HttpServlet {
 		String action = req.getServletPath();
 		if (action.equals("/profile")) {
 			getUser(req, res);
-		}else {
+		}
+		if(action.equals("/sign-up")) {
+			RequestDispatcher rd = req.getRequestDispatcher("sign-up.jsp");
+			rd.forward(req, res);
+		}
+		else {
 			res.sendRedirect("404");
 		}
 	}
@@ -40,7 +47,11 @@ public class Servlet extends HttpServlet {
 		String action = req.getServletPath();
 		if (action.equals("/send")) {
 			sendComment(req, res);
-		}else {
+		}
+		if(action.equals("/sign-up")) {
+			SignUp(req, res);
+		}
+		else {
 			res.sendRedirect("404");
 		}
 	}
@@ -86,5 +97,39 @@ public class Servlet extends HttpServlet {
 		dao.addComment(comment);
 		
 		res.sendRedirect(req.getContextPath() + "/profile?username="+receiverUsername);
+	}
+	
+	protected void SignUp(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+		User user = new User();
+		user.setName(req.getParameter("name"));
+		user.setUsername(req.getParameter("username"));
+		user.setPassword(req.getParameter("password"));
+		
+		String confirmPassword = req.getParameter("confirm-password");
+		
+		try {
+			Validation.isNameValid(user.getName());
+			Validation.isUsernameValid(user.getUsername());
+			Validation.isPasswordValid(user.getPassword(), confirmPassword);
+			
+			UserDAO dao = new UserDAO();
+			
+			if(dao.checkUserExists(user.getUsername())) {
+				throw new ValidationException("Username already in use");
+			}
+			
+			dao.createUser(user);
+			res.sendRedirect(req.getContextPath() + "/profile?username="+user.getUsername());
+		}catch (ValidationException e) {
+			//Keeps filled form field values after form errors
+			req.setAttribute("name", user.getName());
+			req.setAttribute("username", user.getUsername());
+			req.setAttribute("password", user.getPassword());
+			req.setAttribute("confirm-password", user.getPassword());
+			
+			req.setAttribute("error", e);
+			RequestDispatcher rd = req.getRequestDispatcher("/sign-up.jsp");
+			rd.forward(req, res);
+		}
 	}
 }
