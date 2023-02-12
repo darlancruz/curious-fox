@@ -67,4 +67,27 @@ public class UserDAO {
 			throw new RuntimeException(e);
 		}
 	}
+	
+	public boolean checkUserExists(String username) {
+		boolean userExists;
+		
+		String sql = "SELECT * FROM accounts WHERE username=?";
+		try {
+			PreparedStatement stmt = connection.prepareStatement(sql);
+			stmt.setString(1, username);
+			ResultSet rs = stmt.executeQuery();
+			
+			if(rs.next()) {
+				userExists = true;
+			}else {
+				userExists = false;
+			}
+			
+			rs.close();
+			stmt.close();
+			return userExists;
+		}catch(SQLException e) {
+			throw new RuntimeException(e);
+		}
+	}
 }
