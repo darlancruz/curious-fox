@@ -12,6 +12,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.curiousfox.DAO.CommentDAO;
 import com.curiousfox.DAO.UserDAO;
@@ -20,7 +21,7 @@ import com.curiousfox.model.Comment;
 import com.curiousfox.model.User;
 import com.curiousfox.utils.Validation;
 
-@WebServlet(urlPatterns = {"/profile", "/send","/sign-up"})
+@WebServlet(urlPatterns = {"/profile", "/send","/sign-up","/login"})
 public class Servlet extends HttpServlet {
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
@@ -34,6 +35,10 @@ public class Servlet extends HttpServlet {
 		}
 		if(action.equals("/sign-up")) {
 			RequestDispatcher rd = req.getRequestDispatcher("sign-up.jsp");
+			rd.forward(req, res);
+		}
+		if(action.equals("/login")) {
+			RequestDispatcher rd = req.getRequestDispatcher("login.jsp");
 			rd.forward(req, res);
 		}
 		else {
@@ -50,6 +55,9 @@ public class Servlet extends HttpServlet {
 		}
 		if(action.equals("/sign-up")) {
 			SignUp(req, res);
+		}
+		if(action.equals("/login")) {
+			Login(req, res);
 		}
 		else {
 			res.sendRedirect("404");
@@ -131,5 +139,38 @@ public class Servlet extends HttpServlet {
 			RequestDispatcher rd = req.getRequestDispatcher("/sign-up.jsp");
 			rd.forward(req, res);
 		}
+	}
+	
+	protected void Login(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException{
+		String username = req.getParameter("username");
+		String password = req.getParameter("password");
+		
+		try {
+			UserDAO dao = new UserDAO();
+			User user = dao.getUser(username);
+			
+			
+			if(user.getUsername() == null) {
+				throw new ValidationException("Sorry, we could not find your account");
+			}
+			
+			if(!user.getPassword().equals(password)) {
+				throw new ValidationException("Wrong password!");
+			}
+			
+			HttpSession session = req.getSession();
+			session.setAttribute("user", user);
+			
+			res.sendRedirect(req.getContextPath() + "/profile?username="+user.getUsername());
+		} catch (ValidationException e) {
+			//Keeps filled form field values after form errors
+			req.setAttribute("username", username);	
+			req.setAttribute("password", password);
+	
+			req.setAttribute("error", e);
+			RequestDispatcher rd = req.getRequestDispatcher("/login.jsp");
+			rd.forward(req, res);
+		}
+		
 	}
 }
