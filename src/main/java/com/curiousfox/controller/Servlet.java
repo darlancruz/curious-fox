@@ -21,7 +21,7 @@ import com.curiousfox.model.Comment;
 import com.curiousfox.model.User;
 import com.curiousfox.utils.Validation;
 
-@WebServlet(urlPatterns = {"/profile", "/send","/sign-up","/login"})
+@WebServlet(urlPatterns = {"/profile", "/send","/sign-up","/login","/logout"})
 public class Servlet extends HttpServlet {
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
@@ -40,6 +40,12 @@ public class Servlet extends HttpServlet {
 		if(action.equals("/login")) {
 			RequestDispatcher rd = req.getRequestDispatcher("login.jsp");
 			rd.forward(req, res);
+		}
+		if(action.equals("/logout")) {
+			HttpSession session = req.getSession();
+			session.invalidate();
+			
+			res.sendRedirect("./");
 		}
 		else {
 			res.sendRedirect("404");
