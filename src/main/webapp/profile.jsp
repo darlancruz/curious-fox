@@ -28,7 +28,9 @@
 </head>
 
 <body class="bg-slate-800 w-screen flex flex-col gap-4">
-  <header class="flex justify-center items-center bg-slate-700">
+  <header class="flex justify-center flex-wrap items-center bg-slate-700">
+  	<c:import url="./components/nav.jsp"/>
+  
     <div class="flex flex-col items-center gap-1 p-4 max-w-6xl">
       <img class="w-40 rounded-full" src="<%out.print(request.getAttribute("picture"));%>">
       <h2 class="text-center text-slate-50 font-bold text-2xl">
