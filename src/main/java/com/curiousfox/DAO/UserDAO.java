@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
+import java.util.ArrayList;
 
 import com.curiousfox.jdbc.ConnectionFactory;
 import com.curiousfox.model.User;
@@ -108,4 +109,32 @@ public class UserDAO {
 			throw new RuntimeException(e);
 		}
 	}
+	
+	public ArrayList<User> getListOfRandomUsers() {
+		String sql = "SELECT * FROM accounts ORDER BY random() LIMIT 6";
+		try {
+			PreparedStatement stmt = connection.prepareStatement(sql);
+			ResultSet rs = stmt.executeQuery();
+
+			ArrayList<User> users = new ArrayList<User>();
+			while(rs.next()) {
+				User user = new User();
+				user.setId(rs.getString("user_id"));
+				user.setName(rs.getString("name"));
+				user.setUsername(rs.getString("username"));
+				user.setPassword(rs.getString("password"));
+				user.setBio(rs.getString("bio"));
+				user.setEmail(rs.getString("email"));
+				user.setPictureUrl(rs.getString("picture_url"));	
+				
+				users.add(user);
+			}
+			rs.close();
+			stmt.close();
+			return users;
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+	}
+	
 }
