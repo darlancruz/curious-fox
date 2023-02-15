@@ -137,4 +137,32 @@ public class UserDAO {
 		}
 	}
 	
+	public ArrayList<User> searchUser(String name){
+		String sql = "SELECT * FROM accounts WHERE name LIKE '%"+name+"%' OR username LIKE '%"+name+"%' LIMIT 6";
+		
+		try {
+			PreparedStatement stmt = connection.prepareStatement(sql);
+			
+			ResultSet rs = stmt.executeQuery();
+
+			ArrayList<User> users = new ArrayList<User>();
+			while(rs.next()) {
+				User user = new User();
+				user.setId(rs.getString("user_id"));
+				user.setName(rs.getString("name"));
+				user.setUsername(rs.getString("username"));
+				user.setPassword(rs.getString("password"));
+				user.setBio(rs.getString("bio"));
+				user.setEmail(rs.getString("email"));
+				user.setPictureUrl(rs.getString("picture_url"));	
+				
+				users.add(user);
+			}
+			rs.close();
+			stmt.close();
+			return users;
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+	}
 }
