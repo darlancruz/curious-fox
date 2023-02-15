@@ -21,7 +21,7 @@ import com.curiousfox.model.Comment;
 import com.curiousfox.model.User;
 import com.curiousfox.utils.Validation;
 
-@WebServlet(urlPatterns = {"/profile", "/send","/sign-up","/login","/logout"})
+@WebServlet(urlPatterns = {"", "/profile", "/send","/sign-up","/login","/logout"})
 public class Servlet extends HttpServlet {
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
@@ -30,6 +30,10 @@ public class Servlet extends HttpServlet {
 			throws ServletException, IOException {
 		
 		String action = req.getServletPath();
+	
+		if (action.equals("")) {
+			setupHomepage(req, res);
+		}
 		if (action.equals("/profile")) {
 			getUser(req, res);
 		}
@@ -178,5 +182,27 @@ public class Servlet extends HttpServlet {
 			rd.forward(req, res);
 		}
 		
+	}
+	
+	protected void setupHomepage(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException{ 
+		UserDAO dao = new UserDAO();
+		
+		String search = req.getParameter("search");
+		
+		if(search == null || search.isBlank()) {
+			ArrayList<User> listOfRadomUsers = dao.getListOfRandomUsers();
+			req.setAttribute("list_users", listOfRadomUsers);
+			
+			RequestDispatcher rd = req.getRequestDispatcher("index.jsp");
+			rd.forward(req, res);
+		}
+		
+		ArrayList<User> listOfSearchedUsers = dao.searchUser(search);
+		req.setAttribute("results_for", search);
+		req.setAttribute("list_users", listOfSearchedUsers);
+		
+		RequestDispatcher rd = req.getRequestDispatcher("index.jsp");
+		rd.forward(req, res);
+	
 	}
 }
