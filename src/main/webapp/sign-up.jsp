@@ -44,9 +44,9 @@
       <input type="password"  name="password" id="passowrd-input" required maxlength="50"
         class="focus:ring-2 focus:ring-blue-500 focus:outline-none appearance-none text-sm leading-6 text-slate-50 bg-slate-900 placeholder-slate-400 rounded-md py-2 px-5 ring-1 ring-slate-500 shadow-sm resize-none"
         aria-label="Password" placeholder="Password" value="${password}"></input>
-      <input type="password"  name="confirm-password" id="confirm-password" required maxlength="50"
+      <input type="password"  name="confirm_password" id="confirm-password" required maxlength="50"
         class="focus:ring-2 focus:ring-blue-500 focus:outline-none appearance-none text-sm leading-6 text-slate-50 bg-slate-900 placeholder-slate-400 rounded-md py-2 px-5 ring-1 ring-slate-500 shadow-sm resize-none"
-        aria-label="Confirm Password" placeholder="Confirm Password" value="${confirm-password}"></input>
+        aria-label="Confirm Password" placeholder="Confirm Password" value="${confirm_password}"></input>
       <input type="submit" value="Sign Up"
         class="w-full h-10 text-base font-medium rounded-lg bg-sky-500 hover:bg-sky-400 text-white py-2 text-center cursor-pointer highlight-white transition duration-50">
     </form>

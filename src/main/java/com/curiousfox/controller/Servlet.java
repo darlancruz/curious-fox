@@ -121,7 +121,7 @@ public class Servlet extends HttpServlet {
 		user.setUsername(req.getParameter("username"));
 		user.setPassword(req.getParameter("password"));
 		
-		String confirmPassword = req.getParameter("confirm-password");
+		String confirmPassword = req.getParameter("confirm_password");
 		
 		try {
 			Validation.isNameValid(user.getName());
@@ -146,7 +146,7 @@ public class Servlet extends HttpServlet {
 			req.setAttribute("name", user.getName());
 			req.setAttribute("username", user.getUsername());
 			req.setAttribute("password", user.getPassword());
-			req.setAttribute("confirm-password", user.getPassword());
+			req.setAttribute("confirm_password", user.getPassword());
 			
 			req.setAttribute("error", e);
 			RequestDispatcher rd = req.getRequestDispatcher("/sign-up.jsp");
