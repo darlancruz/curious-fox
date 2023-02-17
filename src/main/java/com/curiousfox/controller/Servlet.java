@@ -21,7 +21,7 @@ import com.curiousfox.model.Comment;
 import com.curiousfox.model.User;
 import com.curiousfox.utils.Validation;
 
-@WebServlet(urlPatterns = {"", "/profile", "/send","/sign-up","/login","/logout"})
+@WebServlet(urlPatterns = {"", "/profile", "/send","/sign-up","/login","/logout","/update-bio"})
 public class Servlet extends HttpServlet {
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
@@ -69,8 +69,8 @@ public class Servlet extends HttpServlet {
 		if(action.equals("/login")) {
 			Login(req, res);
 		}
-		else {
-			res.sendRedirect("404");
+		if(action.equals("/update-bio")) {
+			UpdateUserBio(req, res);
 		}
 	}
 	
@@ -204,5 +204,17 @@ public class Servlet extends HttpServlet {
 		RequestDispatcher rd = req.getRequestDispatcher("index.jsp");
 		rd.forward(req, res);
 	
+	}
+	
+	protected void UpdateUserBio(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException{
+		HttpSession session = req.getSession();
+		User user = (User) session.getAttribute("user");
+		
+		String newBio = req.getParameter("new_bio");
+		
+		UserDAO dao = new UserDAO();
+		dao.UpdateBio(user.getId(), newBio);
+	
+		res.sendRedirect(req.getContextPath() + "/profile?username="+user.getUsername());
 	}
 }
