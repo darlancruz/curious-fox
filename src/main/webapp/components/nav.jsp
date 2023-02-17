@@ -21,7 +21,7 @@
 						</span>
 					</div>
 				</button>
-				<menu id="menu" class="hidden absolute flex flex-col items-start left-16 top-12 bg-slate-800 border border-slate-600 rounded-md px-4 py-2 space-y-2">
+				<menu id="menu" class="hidden absolute flex flex-col items-start w-32 md:w-auto right-0  top-14 md:top-12 bg-slate-800 border border-slate-600 rounded-md px-4 py-2 space-y-2">
 					<li>
 						<a href="./profile?username=${user.getUsername()}">My Profile</a>
 					</li>
