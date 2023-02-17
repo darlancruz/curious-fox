@@ -10,7 +10,7 @@
 			<nav class="text-white relative">
 				<button class="flex items-center space-x-2 cursor-pointer" onClick="handleOpenMenu();">
 					<figure class="w-14 overflow-hidden rounded-full">
-						<img class="w-full" src=${user.getPictureUrl()}>
+						<img class="w-full" src="${user.getPictureUrl()}">
 					</figure>
 					<div class="flex items-center font-bold ">
 						<span class="hidden md:inline">
