@@ -40,9 +40,40 @@
         class="border border-slate-500 hover:border-slate-300 text-slate-300 hover:text-slate-100 text-sm font-medium rounded-md px-2 py-1 transition duration-50 cursor-pointer">
         <%out.print(request.getAttribute("username"));%>
       </span>
-      <p class="max-w-xl text-slate-300 text-medium leading-6 text-center">
-        <%out.print(request.getAttribute("bio"));%>
-      </p>
+      <c:choose>
+      	<c:when test="${not empty user and user.getId() == id}">
+      		 <form method="POST" id="bio_form" action="update-bio" class="max-w-xl flex flex-col relative space-y-2" >
+      		 	<div id="bio" class="flex items-center justify-center w-full space-x-2">
+	      		 	<p class="text-slate-300 text-medium leading-6 text-center break-all">
+						${bio}
+	      		 	</p>
+	      		 	<span onClick="handleEditBio();" class="material-symbols-rounded text-slate-300 hover:text-white cursor-pointer">
+						edit_square
+					</span>
+      		 	</div>
+      		 	<textarea id="new_bio" name="new_bio" required maxlength="160"  rows="3" cols="40" 
+      		 	class="hidden focus:ring-2 focus:ring-blue-500 focus:outline-none appearance-none h-32 text-sm leading-6 text-slate-50 bg-slate-900 placeholder-slate-400 rounded-md py-2 px-5 ring-1 ring-slate-500 shadow-sm resize-none"
+      		 	placeholder="Your new bio...">${bio}</textarea>
+      		 	<div id="bio_buttons" class="hidden space-x-4 self-end">
+      		 		<button onClick="handleEditBio();" class="text-slate-300 hover:text-white">Cancel</button>
+      		 		<input type="submit" value="Save"
+      		 		class="w-full md:w-24 h-10 text-base font-medium rounded-lg bg-sky-500 hover:bg-sky-400 text-white py-2 text-center cursor-pointer highlight-white transition duration-50" >
+      		 	</div>
+      		 </form>
+      	</c:when>
+      	<c:otherwise>
+      		   <p class="max-w-xl text-slate-300 text-medium leading-6 text-center">
+		      	<c:choose>
+		      		<c:when test="${not empty bio}">
+		      			${bio}
+		      		</c:when>
+		      		<c:otherwise>
+		      			No info.
+		      		</c:otherwise>
+		      	</c:choose>
+		      </p>
+      	</c:otherwise>
+      </c:choose>
     </div>
   </header>
 
@@ -72,7 +103,6 @@
           		</div>
           	</c:otherwise>
           </c:choose>
-         
           <div class="flex w-full flex-col">
           <c:choose>
           	<c:when test="${not empty comment.key.id}">
@@ -118,6 +148,6 @@
     </div>
   </main>
   <script src="scripts/Comment.js"></script>
+   <script src="scripts/Bio.js"></script>
 </body>
-
 </html>
