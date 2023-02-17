@@ -51,9 +51,7 @@ public class Servlet extends HttpServlet {
 			
 			res.sendRedirect("./");
 		}
-		else {
-			res.sendRedirect("404");
-		}
+
 	}
 	
 	protected void doPost(HttpServletRequest req, HttpServletResponse res)
@@ -195,6 +193,7 @@ public class Servlet extends HttpServlet {
 			
 			RequestDispatcher rd = req.getRequestDispatcher("index.jsp");
 			rd.forward(req, res);
+			return;
 		}
 		
 		ArrayList<User> listOfSearchedUsers = dao.searchUser(search);
