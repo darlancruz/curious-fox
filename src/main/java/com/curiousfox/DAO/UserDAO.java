@@ -165,4 +165,19 @@ public class UserDAO {
 			throw new RuntimeException(e);
 		}
 	}
+
+	public void UpdateBio(String userId, String newBio) {
+		String sql = "UPDATE accounts SET bio = ? WHERE user_id = ?";
+		
+		try {
+			PreparedStatement stmt = connection.prepareStatement(sql);
+			stmt.setString(1, newBio);
+			stmt.setObject(2, userId, Types.OTHER );
+	
+			stmt.execute();
+			stmt.close();
+		}catch(SQLException e) {
+			throw new RuntimeException(e);
+		}
+	}
 }
