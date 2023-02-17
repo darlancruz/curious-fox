@@ -135,6 +135,11 @@ public class Servlet extends HttpServlet {
 			}
 			
 			dao.createUser(user);
+			User createdUser = dao.getUser(user.getUsername());
+			
+			HttpSession session = req.getSession();
+			session.setAttribute("user", createdUser);
+			
 			res.sendRedirect(req.getContextPath() + "/profile?username="+user.getUsername());
 		}catch (ValidationException e) {
 			//Keeps filled form field values after form errors
