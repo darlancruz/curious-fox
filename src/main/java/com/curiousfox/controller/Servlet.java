@@ -5,6 +5,7 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Objects;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -108,6 +109,12 @@ public class Servlet extends HttpServlet {
 		comment.setReceiverId(receiverId);
 		comment.setText(text);
 		comment.setCreatedAt(Instant.now());
+		
+		HttpSession session = req.getSession();
+		User user = (User) session.getAttribute("user");
+		if(Objects.nonNull(user)) {
+			comment.setSenderId(user.getId());
+		}
 		
 		CommentDAO dao = new CommentDAO();
 		dao.addComment(comment);
