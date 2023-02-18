@@ -92,9 +92,9 @@
       <c:forEach items="${comments}" var="comment">
         <div class="flex flex-row gap-2 max-w-2xl w-full border-b border-slate-500 pb-2">
            <c:choose>
-          	<c:when test="${not empty comment.key.id}">
-          	 <a class="w-16 shrink-0 cursor-pointer" href="./profile?username=${comment.key.id}">
-           	 	<img src="https://xsgames.co/randomusers/assets/avatars/female/41.jpg" class="w-full rounded-full">
+          	<c:when test="${not empty comment.key.getId()}">
+          	 <a class="w-16 shrink-0 cursor-pointer" href="./profile?username=${comment.key.getUsername()}">
+           	 	<img src="${comment.key.getPictureUrl()}" class="w-full rounded-full">
          	 </a>
           	</c:when>
           	<c:otherwise>
@@ -105,11 +105,11 @@
           </c:choose>
           <div class="flex w-full flex-col">
           <c:choose>
-          	<c:when test="${not empty comment.key.id}">
-          	    <a class="text-slate-500 cursor-pointer" href="./profile?username=${comment.key.id}">
-	              <span class="text-slate-50 font-medium text-lg">${comment.key.name}</span>
+          	<c:when test="${not empty comment.key.getId()}">
+          	    <a class="text-slate-500 cursor-pointer" href="./profile?username=${comment.key.getUsername()}">
+	              <span class="text-slate-50 font-medium text-lg">${comment.key.getName()}</span>
 	              
-	              <span>@${comment.key.username}</span>
+	              <span>@${comment.key.getUsername()}</span>
 	              <span>·</span>
 	              <span><%
 	              	 Entry<User, Comment> commentMap = (Entry<User, Comment>) pageContext.getAttribute("comment");
