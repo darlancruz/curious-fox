@@ -66,4 +66,36 @@ public class CommentDAO {
 			throw new RuntimeException(e);
 		}
 	}
+	
+	public Comment getComment(String commentId) {
+		String sql = "SELECT * FROM comments WHERE comment_id = ?";
+		try {
+			PreparedStatement stmt = connection.prepareStatement(sql);
+			stmt.setObject(1, commentId, Types.OTHER);
+			ResultSet rs = stmt.executeQuery();
+			
+			Comment comment = new Comment();
+			while(rs.next()) {
+				String parentId = rs.getString("parent_id");
+				String senderId = rs.getString("sender_id");
+				String receiverId = rs.getString("receiver_id");
+				String text = rs.getString("comment_text");
+				Timestamp createdAt = rs.getTimestamp("created_at");
+				
+				comment.setId(commentId);
+				comment.setParentId(parentId);
+				comment.setSenderId(senderId);
+				comment.setReceiverId(receiverId);
+				comment.setText(text);
+				comment.setCreatedAt(createdAt.toInstant());
+			}
+			
+			rs.close();
+			stmt.close();
+			return comment;
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+	}
+	
 }
