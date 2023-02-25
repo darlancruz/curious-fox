@@ -22,7 +22,7 @@ import com.curiousfox.model.Comment;
 import com.curiousfox.model.User;
 import com.curiousfox.utils.Validation;
 
-@WebServlet(urlPatterns = {"", "/profile", "/send","/sign-up","/login","/logout","/update-bio"})
+@WebServlet(urlPatterns = {"", "/profile", "/send","/sign-up","/login","/logout","/update-bio","/comment", "/reply"})
 public class Servlet extends HttpServlet {
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
@@ -51,6 +51,9 @@ public class Servlet extends HttpServlet {
 			session.invalidate();
 			
 			res.sendRedirect("./");
+		}
+		if (action.equals("/comment")) {
+			getComment(req, res);
 		}
 
 	}
@@ -229,4 +232,37 @@ public class Servlet extends HttpServlet {
 	
 		res.sendRedirect(req.getContextPath() + "/profile?username="+user.getUsername());
 	}
+	
+	protected void getComment(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+		String commentId = req.getParameter("id");
+		
+		if(commentId.isBlank()) {
+			res.sendRedirect("");
+			return;
+		}
+		
+		CommentDAO commentDAO = new CommentDAO();
+		UserDAO userDAO = new UserDAO();
+		
+		Comment comment = commentDAO.getComment(commentId);
+		User user = userDAO.getUserById(comment.getSenderId());
+		Entry<User, Comment> commentByUser = Map.entry(user, comment);
+		
+		req.setAttribute("comment", commentByUser);
+		
+		ArrayList<Comment> repliesArr = commentDAO.getAllReplies(commentId);
+		ArrayList<Entry<User, Comment>> repliesByUser = new ArrayList<Entry<User, Comment>>();
+	
+		for(Comment reply: repliesArr) {
+			User sender = userDAO.getUserById(reply.getSenderId());
+			Entry<User, Comment> entry = Map.entry(sender, reply);
+			repliesByUser.add(entry);
+		}
+		
+		req.setAttribute("replies", repliesByUser);
+		
+		RequestDispatcher rd = req.getRequestDispatcher("comment.jsp");
+		rd.forward(req, res);
+	}
+	
 }
