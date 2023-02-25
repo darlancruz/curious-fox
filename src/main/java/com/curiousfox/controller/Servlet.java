@@ -61,6 +61,8 @@ public class Servlet extends HttpServlet {
 		String action = req.getServletPath();
 		if (action.equals("/send")) {
 			sendComment(req, res);
+			String receiverUsername = req.getParameter("receiver_username");
+			res.sendRedirect(req.getContextPath() + "/profile?username="+receiverUsername);
 		}
 		if(action.equals("/sign-up")) {
 			SignUp(req, res);
@@ -101,11 +103,12 @@ public class Servlet extends HttpServlet {
 	
 	
 	protected void sendComment(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+		String parentId = req.getParameter("parent_id");
 		String receiverId = req.getParameter("receiver_id");
-		String receiverUsername = req.getParameter("receiver_username");
 		String text = req.getParameter("text");
 		
 		Comment comment = new Comment();
+		comment.setParentId(parentId);
 		comment.setReceiverId(receiverId);
 		comment.setText(text);
 		comment.setCreatedAt(Instant.now());
@@ -118,8 +121,6 @@ public class Servlet extends HttpServlet {
 		
 		CommentDAO dao = new CommentDAO();
 		dao.addComment(comment);
-		
-		res.sendRedirect(req.getContextPath() + "/profile?username="+receiverUsername);
 	}
 	
 	protected void SignUp(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
