@@ -98,4 +98,38 @@ public class CommentDAO {
 		}
 	}
 	
+	public ArrayList<Comment> getAllReplies(String parentId){
+		String sql = "SELECT * FROM comments WHERE parent_id = ? ORDER BY created_at DESC";
+		
+		try {
+			PreparedStatement stmt = connection.prepareStatement(sql);
+			stmt.setObject(1, parentId, Types.OTHER);
+			ResultSet rs = stmt.executeQuery();
+			
+			ArrayList<Comment> repliesArr = new ArrayList<Comment>();
+			while (rs.next()) {
+				String commentId = rs.getString("comment_id");
+				String senderId = rs.getString("sender_id");
+				String receiverId = rs.getString("receiver_id");
+				String text = rs.getString("comment_text");
+				Timestamp createdAt = rs.getTimestamp("created_at");
+				
+				Comment comment = new Comment();
+				comment.setId(commentId);
+				comment.setParentId(parentId);
+				comment.setSenderId(senderId);
+				comment.setReceiverId(receiverId);
+				comment.setText(text);
+				comment.setCreatedAt(createdAt.toInstant());
+				
+				repliesArr.add(comment);
+			}
+			
+			stmt.close();
+			return repliesArr;
+		} catch(SQLException e) {
+			throw new RuntimeException(e);
+		}
+		
+	}
 }
