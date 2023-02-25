@@ -4,6 +4,7 @@ import java.time.Instant;
 
 public class Comment {
 	private String id;
+	private String parentId;
 	private String senderId;
 	private String receiverId;
 	private String text;
@@ -15,6 +16,14 @@ public class Comment {
 	
 	public void setId(String id) {
 		this.id = id;
+	}
+	
+	public String getParentId() {
+		return parentId;
+	}
+	
+	public void setParentId(String parentId) {
+		this.parentId = parentId;
 	}
 	
 	public String getSenderId() {
