@@ -76,6 +76,11 @@ public class Servlet extends HttpServlet {
 		if(action.equals("/update-bio")) {
 			UpdateUserBio(req, res);
 		}
+		if (action.equals("/reply")) {
+			sendComment(req, res);
+			String parentId = req.getParameter("parent_id");
+			res.sendRedirect(req.getContextPath() + "/comment?id="+parentId);
+		}
 	}
 	
 	protected void getUser(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
