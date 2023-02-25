@@ -19,13 +19,14 @@ public class CommentDAO {
 	}
 	
 	public void addComment(Comment comment) {
-		String sql = "INSERT INTO comments (sender_id, receiver_id, comment_text, created_at) values (?,?,?,?)";
+		String sql = "INSERT INTO comments (parent_id, sender_id, receiver_id, comment_text, created_at) values (?,?,?,?,?)";
 		try {
 			PreparedStatement stmt = connection.prepareStatement(sql);
-			stmt.setObject(1, comment.getSenderId(), Types.OTHER);
-			stmt.setObject(2, comment.getReceiverId(), Types.OTHER);
-			stmt.setString(3, comment.getText());
-			stmt.setTimestamp(4, Timestamp.from(comment.getCreatedAt()));
+			stmt.setObject(1, comment.getParentId(), Types.OTHER);
+			stmt.setObject(2, comment.getSenderId(), Types.OTHER);
+			stmt.setObject(3, comment.getReceiverId(), Types.OTHER);
+			stmt.setString(4, comment.getText());
+			stmt.setTimestamp(5, Timestamp.from(comment.getCreatedAt()));
 			
 			stmt.execute();
 			stmt.close();
