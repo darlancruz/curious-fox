@@ -134,6 +134,8 @@
               </p>
 
             <a
+              onClick="addToHistory();"
+              href="comment?id=${comment.value.getId()}"
               class="self-start md:self-end flex items-center justify-center gap-1 w-11/12 md:w-fit rounded-md text-slate-300 align text-sm bg-slate-700 hover:bg-slate-500 p-2 md:py-1 mt-3 md:mt-0 cursor-pointer transition duration-50">
               <span class="material-symbols-rounded">
                 comment
@@ -148,6 +150,7 @@
     </div>
   </main>
   <script src="scripts/Comment.js"></script>
-   <script src="scripts/Bio.js"></script>
+  <script src="scripts/Bio.js"></script>
+  <script src="scripts/BackButton.js"></script>
 </body>
 </html>
