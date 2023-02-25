@@ -36,7 +36,7 @@ public class CommentDAO {
 	}
 	
 	public ArrayList<Comment> getAllComments(String userId) {
-		String sql = "SELECT * FROM comments WHERE receiver_id = ? ORDER BY created_at DESC";
+		String sql = "SELECT * FROM comments WHERE receiver_id = ? AND parent_id is NULL ORDER BY created_at DESC";
 		try {
 			PreparedStatement stmt = connection.prepareStatement(sql);
 			stmt.setObject(1, userId, Types.OTHER);
