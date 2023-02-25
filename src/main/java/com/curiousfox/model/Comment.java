@@ -3,11 +3,11 @@ package com.curiousfox.model;
 import java.time.Instant;
 
 public class Comment {
-	String id;
-	String senderId;
-	String receiverId;
-	String text;
-	Instant createdAt;
+	private String id;
+	private String senderId;
+	private String receiverId;
+	private String text;
+	private Instant createdAt;
 	
 	public String getId() {
 		return id;

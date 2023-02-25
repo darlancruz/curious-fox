@@ -130,7 +130,7 @@
           </c:choose>
         
             <p class="w-full text-slate-300 md:text-justify pt-2 md:pt-0">
-              ${comment.value.text}
+              ${comment.value.getText()}
               </p>
 
             <a
