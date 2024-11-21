@@ -1,9 +1,9 @@
 <p align="center">
-    <img alt="Repository size" src="https://img.shields.io/github/repo-size/DarlanSilv4/curious-fox.svg?style=flat-square&color=64a4a">
- <a href="https://github.com/DarlanSilv4/curious-fox/commits/master">
-    <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/DarlanSilv4/curious-fox.svg?style=flat-square&color=f8cd65">
+    <img alt="Repository size" src="https://img.shields.io/github/repo-size/darlancruz/curious-fox.svg?style=flat-square&color=64a4a">
+ <a href="https://github.com/darlancruz/curious-fox/commits/master">
+    <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/darlancruz/curious-fox.svg?style=flat-square&color=f8cd65">
   </a>
-    <img alt="GitHub top language" src="https://img.shields.io/github/languages/top/DarlanSilv4/curious-fox.svg?style=flat-square&color=fb7c58">
+    <img alt="GitHub top language" src="https://img.shields.io/github/languages/top/darlancruz/curious-fox.svg?style=flat-square&color=fb7c58">
 </p>
 
 <h1 align="center">
@@ -28,7 +28,7 @@ Curious Fox is an anonymous Q&A social network made for study purposes only.
 ## 🚀 Getting Started
 ```
 # Clone this repository
-$ git clone https://github.com/DarlanSilv4/curious-fox
+$ git clone https://github.com/darlancruz/curious-fox
 
 # Go into the folder
 $ cd curious-fox
